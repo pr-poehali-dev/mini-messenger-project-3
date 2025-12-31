@@ -366,8 +366,8 @@ const Index = () => {
                     </div>
                     <Icon name="ChevronRight" size={20} className="text-muted-foreground" />
                   </div>
-                </Card>
-                <Card className="p-4">
+                </div>
+                <div className="p-4 bg-card border-b">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Icon name="Moon" size={20} className="text-muted-foreground" />
@@ -378,8 +378,8 @@ const Index = () => {
                     </div>
                     <Icon name="ChevronRight" size={20} className="text-muted-foreground" />
                   </div>
-                </Card>
-                <Card className="p-4">
+                </div>
+                <div className="p-4 bg-card border-b">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Icon name="Database" size={20} className="text-muted-foreground" />
@@ -390,8 +390,8 @@ const Index = () => {
                     </div>
                     <Icon name="ChevronRight" size={20} className="text-muted-foreground" />
                   </div>
-                </Card>
-                <Card className="p-4">
+                </div>
+                <div className="p-4 bg-card border-b">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Icon name="Lock" size={20} className="text-muted-foreground" />
@@ -402,8 +402,8 @@ const Index = () => {
                     </div>
                     <Icon name="ChevronRight" size={20} className="text-muted-foreground" />
                   </div>
-                </Card>
-                <Card className="p-4">
+                </div>
+                <div className="p-4 bg-card rounded-b-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Icon name="Info" size={20} className="text-muted-foreground" />
@@ -414,7 +414,7 @@ const Index = () => {
                     </div>
                     <Icon name="ChevronRight" size={20} className="text-muted-foreground" />
                   </div>
-                </Card>
+                </div>
               </div>
             </TabsContent>
           </div>
