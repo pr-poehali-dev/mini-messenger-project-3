@@ -247,20 +247,20 @@ const Index = () => {
                         <Button size="icon" variant="ghost" className="shrink-0">
                           <Icon name="Mic" size={20} />
                         </Button>
-                        <Button size="icon" onClick={handleSendMessage} className="shrink-0 bg-primary">
+                        <Button size="icon" onClick={handleSendMessage} className="shrink-0 bg-primary hover:bg-primary/90">
                           <Icon name="Send" size={20} />
                         </Button>
                       </div>
                     </div>
-                  </Card>
+                  </div>
                 </div>
               )}
             </TabsContent>
 
             <TabsContent value="contacts" className="mt-0 animate-fade-in">
-              <div className="space-y-2">
+              <div className="space-y-0">
                 {contacts.map((contact) => (
-                  <Card key={contact.id} className="p-4 hover:bg-accent/50 transition-all">
+                  <div key={contact.id} className="p-4 hover:bg-muted/50 transition-colors border-b bg-card">
                     <div className="flex items-center gap-3">
                       <div className="relative">
                         <Avatar className="w-14 h-14">
@@ -294,11 +294,11 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="gallery" className="mt-0 animate-fade-in">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-1 p-1">
                 {gallery.map((item) => (
-                  <Card
+                  <div
                     key={item.id}
-                    className="aspect-square overflow-hidden cursor-pointer hover:scale-105 transition-transform"
+                    className="aspect-square overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
                   >
                     <div className="relative w-full h-full">
                       <img
@@ -321,7 +321,7 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="profile" className="mt-0 animate-fade-in">
-              <Card className="p-6">
+              <div className="p-6 bg-card mx-4 my-4 rounded-lg">
                 <div className="flex flex-col items-center text-center mb-6">
                   <Avatar className="w-24 h-24 mb-4">
                     <AvatarImage src={currentUser.avatar} />
@@ -350,12 +350,12 @@ const Index = () => {
                     Помощь
                   </Button>
                 </div>
-              </Card>
+              </div>
             </TabsContent>
 
             <TabsContent value="settings" className="mt-0 animate-fade-in">
-              <div className="space-y-3">
-                <Card className="p-4">
+              <div className="space-y-0 mx-4 my-4">
+                <div className="p-4 bg-card border-b rounded-t-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Icon name="Bell" size={20} className="text-muted-foreground" />
