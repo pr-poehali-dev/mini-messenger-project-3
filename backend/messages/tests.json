@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {
+      "name": "Get chats list",
+      "method": "GET",
+      "path": "/?action=get_chats",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get contacts list",
+      "method": "GET",
+      "path": "/?action=get_contacts",
+      "expectedStatus": 200
+    }
+  ]
+}
