@@ -289,7 +289,7 @@ const Index = () => {
                         </Button>
                       </div>
                     </div>
-                  </div>
+                  </Card>
                 </div>
               )}
             </TabsContent>
@@ -325,7 +325,7 @@ const Index = () => {
                         </Button>
                       </div>
                     </div>
-                  </Card>
+                  </div>
                 ))}
               </div>
             </TabsContent>
@@ -352,7 +352,7 @@ const Index = () => {
                         {item.date}
                       </div>
                     </div>
-                  </Card>
+                  </div>
                 ))}
               </div>
             </TabsContent>
