@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -30,49 +30,76 @@ interface GalleryItem {
   date: string;
 }
 
+const API_URL = 'https://functions.poehali.dev/8555ac94-6715-45d9-8bf4-180be8a77aef';
+
+interface Message {
+  id: number;
+  text: string;
+  sent: boolean;
+  time: string;
+}
+
 const Index = () => {
   const [activeTab, setActiveTab] = useState('chats');
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [message, setMessage] = useState('');
+  const [chats, setChats] = useState<Chat[]>([]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const contacts: Contact[] = [
-    { id: 1, name: 'Мама', avatar: '', status: 'online', initials: 'М' },
-    { id: 2, name: 'Папа', avatar: '', status: 'online', initials: 'П' },
-    { id: 3, name: 'Сестра Аня', avatar: '', status: 'offline', initials: 'А' },
-    { id: 4, name: 'Брат Саша', avatar: '', status: 'online', initials: 'С' },
-    { id: 5, name: 'Бабушка', avatar: '', status: 'offline', initials: 'Б' },
-  ];
+  useEffect(() => {
+    loadChats();
+    loadContacts();
+    
+    const interval = setInterval(() => {
+      loadChats();
+      if (selectedChat) {
+        loadMessages(selectedChat);
+      }
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
-  const chats: Chat[] = [
-    {
-      id: 1,
-      contact: contacts[0],
-      lastMessage: 'Не забудь позвонить после работы!',
-      time: '14:23',
-      unread: 2,
-    },
-    {
-      id: 2,
-      contact: contacts[1],
-      lastMessage: 'Договорились на воскресенье',
-      time: '12:45',
-      unread: 0,
-    },
-    {
-      id: 3,
-      contact: contacts[2],
-      lastMessage: 'Спасибо за подарок! 💝',
-      time: 'Вчера',
-      unread: 1,
-    },
-    {
-      id: 4,
-      contact: contacts[3],
-      lastMessage: 'Посмотрел тот фильм, классный!',
-      time: 'Вчера',
-      unread: 0,
-    },
-  ];
+  useEffect(() => {
+    if (selectedChat) {
+      loadMessages(selectedChat);
+    }
+  }, [selectedChat]);
+
+  const loadChats = async () => {
+    try {
+      const response = await fetch(`${API_URL}/?action=get_chats`);
+      const data = await response.json();
+      setChats(data.chats || []);
+    } catch (error) {
+      console.error('Error loading chats:', error);
+    }
+  };
+
+  const loadContacts = async () => {
+    try {
+      const response = await fetch(`${API_URL}/?action=get_contacts`);
+      const data = await response.json();
+      setContacts(data.contacts || []);
+    } catch (error) {
+      console.error('Error loading contacts:', error);
+    }
+  };
+
+  const loadMessages = async (chatId: number) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_URL}/?action=get_messages&chat_id=${chatId}`);
+      const data = await response.json();
+      setMessages(data.messages || []);
+    } catch (error) {
+      console.error('Error loading messages:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const gallery: GalleryItem[] = [
     { id: 1, url: '/placeholder.svg', type: 'image', date: '15 дек' },
@@ -90,17 +117,27 @@ const Index = () => {
     initials: 'Я',
   };
 
-  const messages = selectedChat
-    ? [
-        { id: 1, text: 'Привет! Как дела?', sent: false, time: '14:20' },
-        { id: 2, text: 'Всё отлично! У тебя как?', sent: true, time: '14:21' },
-        { id: 3, text: 'Не забудь позвонить после работы!', sent: false, time: '14:23' },
-      ]
-    : [];
+  const handleSendMessage = async () => {
+    if (!message.trim() || !selectedChat) return;
 
-  const handleSendMessage = () => {
-    if (message.trim()) {
-      setMessage('');
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_URL}/?action=send_message`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: selectedChat, text: message })
+      });
+      const data = await response.json();
+      
+      if (data.message) {
+        setMessages([...messages, data.message]);
+        setMessage('');
+        loadChats();
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
